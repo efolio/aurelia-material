@@ -1,0 +1,31 @@
+{
+  "name": "aurelia-material",
+  "version": "0.0.0-pre",
+  "description": "Material design lite components for Aurelia",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/efolio/aurelia-material.git"
+  },
+  "keywords": [
+    "aurelia",
+    "material",
+    "mdl",
+    "material design lite",
+    "design",
+    "lite",
+    "component",
+    "google",
+    "aureliajs",
+    "plugin"
+  ],
+  "author": "L.systems",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/efolio/aurelia-material/issues"
+  },
+  "homepage": "https://github.com/efolio/aurelia-material#readme"
+}

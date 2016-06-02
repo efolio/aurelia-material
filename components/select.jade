@@ -1,0 +1,17 @@
+template
+  require(from='./menu')
+
+  .mdl-textfield--floating-label.getmdl-select.mdl-textfield.mdl-js-textfield(mdl="textfield" ref="component")
+    input.mdl-textfield__input(
+      type="text"
+      id.bind="id"
+      value.bind="value | mdlInternalSelectKeyToValue:values"
+      readonly
+      tabIndex="-1"
+      ref="input"
+    )
+    label(for.bind="id")
+      i.mdl-icon-toggle__label.material-icons keyboard_arrow_down
+    label.mdl-textfield__label(for.bind="id" if.bind="label") ${label}
+    mdl-menu(for.bind="id" position="bottom-left" ripple.bind="ripple")
+      slot

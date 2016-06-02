@@ -1,0 +1,7 @@
+template
+  ul.mdl-menu--bottom-left.mdl-js-ripple-effect.mdl-menu.mdl-js-menu(
+    data-mdl-for.bind="for"
+    ref="component"
+    class.bind="position ? ('mdl-menu--' + position) : ''"
+  )
+    slot
