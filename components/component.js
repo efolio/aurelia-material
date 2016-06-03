@@ -1,7 +1,8 @@
 import {bindable} from 'aurelia-framework';
 import {MdlUpgrader} from './upgrader.js';
 
-const componentAttrs = 'componentAttrs'; //new Symbol('componentAttrs');
+const componentAttrs = Symbol('componentAttrs');
+const attachedFns = Symbol('attachedFns');
 
 function getComponentOptions(obj) {
   do {
@@ -35,19 +36,33 @@ export function mdlComponent(options) {
       this.upgrader.upgrade(this[options.ref], 'Material' + options.upgrade);
       attached.apply(this, arguments);
     };
+
+    Object.defineProperty(target.prototype, 'type', {
+      get: function() {
+        return getComponentOptions(this).type;
+      }
+    });
   };
 }
 
 function attachedAndChanged(changed, target, key, descriptor) {
   bindable(target, key, descriptor);
-  target[key + 'Changed'] = function() {};
 
-  const attached = target.attached || function() {};
-  target.attached = function() {
-    attached.apply(this, arguments);
-    changed.call(this, this[key]);
-    target[key + 'Changed'] = changed;
-  };
+  if (!target[attachedFns]) {
+    target[attachedFns] = [];
+
+    const attached = target.attached || function() {};
+    target.attached = function() {
+      attached.apply(this, arguments);
+      changed.call(this, this[key]);
+      target[key + 'Changed'] = function(...args) {
+        target[attachedFns].forEach(changed => changed.call(this, ...args));
+      };
+    };
+  }
+  target[attachedFns].push(changed);
+
+  target[key + 'Changed'] = function() {}
 }
 
 function _styleAttr(options, target, key, descriptor) {
@@ -72,7 +87,7 @@ export function styleAttr(options, ...rest) {
 function _forwardAttr(ref, target, key, descriptor) {
   function changed(value) {
     var elt = this[ref || getComponentOptions(this).ref];
-    if (!value && value !== '')
+    if (!value)
       return elt.removeAttribute(key);
     elt.setAttribute(key, value);
   }
