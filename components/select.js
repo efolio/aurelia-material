@@ -1,11 +1,11 @@
 import {bindable, inject, bindingMode, observable, Container, Optional} from 'aurelia-framework';
+import {BindingSignaler} from 'aurelia-templating-resources';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {MdlUpgrader} from './upgrader.js';
-import getmdlSelect from 'getmdl-select/getmdl-select.min.js';
 import {mdlComponent, forwardAttr} from './component.js';
 
 @mdlComponent({type: 'Select', upgrade: 'Textfield', inject: false})
-@inject(MdlUpgrader, EventAggregator, Element, Container)
+@inject(MdlUpgrader, EventAggregator, Element, Container, BindingSignaler)
 export class MdlSelectCustomElement {
   @bindable id
   @bindable({defaultBindingMode: bindingMode.twoWay}) value
@@ -15,16 +15,16 @@ export class MdlSelectCustomElement {
 
   values = {}
 
-  constructor(upgrader, evAgg, element, container) {
+  constructor(upgrader, evAgg, element, container, signaler) {
     this.upgrader = upgrader;
     this.evAgg = evAgg;
     this.container = container;
+    this.signaler = signaler;
 
     element.removeAttribute('id');
   }
 
   attached() {
-    getmdlSelect.addEventListeners(this.component);
     var subscription = this.evAgg.subscribe('mdl:component:upgrade', payload => {
       if (!payload.data.attributes['data-mdl-for'] || payload.data.attributes['data-mdl-for'].value !== this.id)
         return;
@@ -40,6 +40,15 @@ export class MdlSelectCustomElement {
 
   registerValue(textContent, option) {
     this.values[textContent] = option;
+  }
+
+  setValue(textContent) {
+    this.component.MaterialTextfield.change(textContent);
+    this.value = this.values[textContent].value;
+  }
+
+  focus() {
+    this.input.focus();
   }
 }
 

@@ -9,6 +9,7 @@ template
       readonly
       tabIndex="-1"
       ref="input"
+      change.trigger="input.focus()"
     )
     label(for.bind="id")
       i.mdl-icon-toggle__label.material-icons keyboard_arrow_down

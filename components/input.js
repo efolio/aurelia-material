@@ -12,4 +12,10 @@ export class MdlInputCustomElement {
   constructor(upgrader) {
     this.upgrader = upgrader;
   }
+
+  valueChanged(value) {
+    if (!this.component || this.input.value === value)
+      return;
+    this.component.MaterialTextfield.change(value);
+  }
 }

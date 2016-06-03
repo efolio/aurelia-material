@@ -1,37 +1,48 @@
-import {useView, bindable, inject, containerless} from 'aurelia-framework';
+import {useView, bindable, inject, containerless, Optional} from 'aurelia-framework';
 import {MdlMenuItemCustomElement} from './menu-item.js';
 import {MdlSelectCustomElement} from './select.js';
 import {ObserverLocator} from 'aurelia-binding';
 import {MdlUpgrader} from './upgrader.js';
 
-@useView('./menu-item.html')
-@inject(MdlSelectCustomElement, Element)
+@inject(Optional.of(MdlSelectCustomElement, true))
 export class MdlOptionCustomElement extends MdlMenuItemCustomElement {
   @bindable default
   @bindable value = null
 
-  constructor(select, option, ...superDeps) {
+  constructor(select, ...superDeps) {
+    if (!select)
+      throw new Error('option should be in a select');
+
     super(...superDeps);
     this.select = select;
-    this.option = option;
   }
 
   attached() {
     super.attached();
 
-    this.select.registerValue(this.option.textContent, this);
-
     if (this.value === null)
-      this.value = this.option.textContent;
+      this.value = this.component.textContent;
+
+    this.select.registerValue(this.component.textContent, this);
 
     // handle default value
-    if (this.default && !this.select.value)
-      this.component.click();
+    if ((this.value === this.select.value) ||                                   // current option is selected
+      this.select.value === undefined && (!this.value || this.default)) {       // no value to preselect & falsy value | default
+      this.setValue();
+    }
+  }
+
+  setValue(focus) {
+    if (!this.component)
+      return;
+    this.select.setValue(this.component.textContent, this.value);
+    if (focus)
+      this.select.focus();
   }
 
   valueChanged(value, oldValue) {
     if (this.select.value !== oldValue)
       return;
-    this.select.value = value;
+    this.setValue();
   }
 }
