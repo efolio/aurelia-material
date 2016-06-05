@@ -18,5 +18,6 @@ export class MdlAutoWidthCustomAttribute {
 
     this.selector = newValue;
     this.element.style.width = this.element.querySelector(this.selector).textContent.length / 2 + 1 + 'em';
+    console.log('auto-width.js:22', this.element.style.width);
   }
 }

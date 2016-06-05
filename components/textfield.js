@@ -5,7 +5,7 @@ import * as converters from './converters.js';
 import _ from 'lodash';
 
 @mdlComponent({type: 'Input', upgrade: 'Textfield'})
-export class MdlInputCustomElement {
+export class MdlTextfieldCustomElement {
   @bindable id
   @bindable({defaultBindingMode: bindingMode.twoWay}) value = ''
   @bindable label
