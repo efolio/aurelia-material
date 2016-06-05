@@ -9,6 +9,7 @@ export class MdlTextfieldCustomElement {
   @bindable id
   @bindable({defaultBindingMode: bindingMode.twoWay}) value = ''
   @bindable label
+  @bindable type
   @bindable valueConverter
   @bindable displayValue
   @forwardAttr('input') required
@@ -52,6 +53,10 @@ export class MdlTextfieldCustomElement {
   detached() {
     if (this.hasEventListeners)
       this.removeEventListeners();
+  }
+
+  typeChanged(value) {
+    this.valueConverter = this.valueConverter || value;
   }
 
   valueConverterChanged(value) {

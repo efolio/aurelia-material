@@ -7,7 +7,7 @@ var lang = 'fr-FR'; // FIXME
 numbro.culture(lang, numbroLang);
 numbro.culture(lang);
 
-export class NumberFormatValueConverter {
+export class NumberValueConverter {
   toView(value, decimals, format) {
     decimals = _.repeat('0', decimals || 2);
 
@@ -57,7 +57,7 @@ export class CurrencyValueConverter {
   }
 }
 
-export class DateFormatValueConverter {
+export class DateValueConverter {
   toView(value, format) {
     return moment(value).format(format);
   }
