@@ -1,10 +1,11 @@
 import {bindable, bindingMode} from 'aurelia-framework';
+import {computedFrom} from 'aurelia-binding';
 import {MdlUpgrader} from './upgrader.js';
 import {mdlComponent, forwardAttr, styleAttr} from './component.js';
 import * as converters from './converters.js';
 import _ from 'lodash';
 
-@mdlComponent({type: 'Input', upgrade: 'Textfield'})
+@mdlComponent({mdlType: 'Textfield', upgrade: 'Textfield'})
 export class MdlTextfieldCustomElement {
   @bindable id
   @bindable({defaultBindingMode: bindingMode.twoWay}) value = ''
@@ -12,6 +13,7 @@ export class MdlTextfieldCustomElement {
   @bindable type
   @bindable valueConverter
   @bindable displayValue
+  @bindable unit
   @forwardAttr('input') required
   @styleAttr({class: 'is-disabled'}) @forwardAttr('input') disabled
 
@@ -19,6 +21,7 @@ export class MdlTextfieldCustomElement {
     this.upgrader = upgrader;
 
     this.focusListener = () => {
+      this.hasFocus = true;
       this.displayValue = this.value && this.valueConverterObj ?
         this.valueConverterObj.prototype.fromView(this.value)
         : undefined
@@ -26,14 +29,37 @@ export class MdlTextfieldCustomElement {
     };
 
     this.blurListener = () => {
+      this.hasFocus = false;
       this.displayValue = this.value ? (
         this.valueConverterObj ?
-          this.valueConverterObj.prototype.toView(this.value) :
-          this.value
+          this.addUnit(this.valueConverterObj.prototype.toView(this.value)) :
+          this.addUnit(this.value)
         ) :
         undefined
       ;
+
+      if (!this.displayValue && !this.value)
+        this.component.MaterialTextfield.change(this.value);
     };
+  }
+
+  addUnit(value) {
+    if (this.unit && this.type !== 'currency')
+      return value + ' ' + this.unit;
+    return value;
+  }
+
+  removeUnit(value) {
+    if (this.unit && this.type !== 'currency')
+      return value.substr(0, value.length - (' ' + this.unit).length);
+    return value;
+  }
+
+  @computedFrom('unit', 'hasFocus', 'displayValue')
+  get displayLabelUnit() {
+    return this.unit && (this.hasFocus || (!this.displayValue && this.displayValue !== 0)) ?
+      (' (' + this.unit + ')') : ''
+    ;
   }
 
   addEventListeners() {
@@ -57,6 +83,9 @@ export class MdlTextfieldCustomElement {
 
   typeChanged(value) {
     this.valueConverter = this.valueConverter || value;
+
+    if (value === 'currency')
+      this.unit = this.unit || '€'; // FIXME culture
   }
 
   valueConverterChanged(value) {
@@ -64,7 +93,6 @@ export class MdlTextfieldCustomElement {
       return;
 
     this.valueConverterObj = null;
-
     if (!value)
       return;
 

@@ -16,11 +16,11 @@ function getComponentOptions(obj) {
 
 export function mdlComponent(options) {
   if (typeof options === 'string' || options instanceof String)
-    options = {type: options};
+    options = {mdlType: options};
 
   options.ref = options.ref || 'component';
-  options.prefix = options.prefix || ('mdl-' + options.type.toLowerCase());
-  options.upgrade = 'upgrade' in options ? options.upgrade : options.type;
+  options.prefix = options.prefix || ('mdl-' + options.mdlType.toLowerCase());
+  options.upgrade = 'upgrade' in options ? options.upgrade : options.mdlType;
 
   return function(target) {
     target[componentAttrs] = options;
@@ -37,9 +37,9 @@ export function mdlComponent(options) {
       attached.apply(this, arguments);
     };
 
-    Object.defineProperty(target.prototype, 'type', {
+    Object.defineProperty(target.prototype, 'mdlType', {
       get: function() {
-        return getComponentOptions(this).type;
+        return getComponentOptions(this).mdlType;
       }
     });
   };

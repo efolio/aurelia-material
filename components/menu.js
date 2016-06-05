@@ -3,7 +3,7 @@ import {mdlComponent, upgradeAttr} from './component.js';
 import {MdlSelectCustomElement} from './select.js';
 import {MdlUpgrader} from './upgrader.js';
 
-@mdlComponent({type: 'Menu', inject: false})
+@mdlComponent({mdlType: 'Menu', inject: false})
 @inject(MdlUpgrader, Optional.of(MdlSelectCustomElement, true))
 export class MdlMenuCustomElement {
   @bindable for

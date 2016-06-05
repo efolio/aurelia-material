@@ -1,5 +1,5 @@
 template
-  label.mdl-js-ripple-effect(ref="component" class="mdl-${type.toLowerCase() & oneTime} mdl-js-${type.toLowerCase() & oneTime}")
-    input(type="checkbox" id.bind="id" ref="input" checked.bind="checked" class="mdl-${type.toLowerCase() & oneTime}__input")
-    span(class="mdl-${type.toLowerCase() & oneTime}__label")
+  label.mdl-js-ripple-effect(ref="component" class="mdl-${mdlType.toLowerCase() & oneTime} mdl-js-${mdlType.toLowerCase() & oneTime}")
+    input(type="checkbox" id.bind="id" ref="input" checked.bind="checked" class="mdl-${mdlType.toLowerCase() & oneTime}__input")
+    span(class="mdl-${mdlType.toLowerCase() & oneTime}__label")
       slot

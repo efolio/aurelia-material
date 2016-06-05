@@ -14,7 +14,7 @@ export class MdlUpgrader {
     if (ripple)
       componentHandler.upgradeElement(item, 'MaterialRipple');
 
-    this.eventAgg.publish('mdl:component:upgrade', {data: item, type: type});
+    this.eventAgg.publish('mdl:component:upgrade', {data: item, mdlType: type});
   }
 
   downgrade(item, type) {

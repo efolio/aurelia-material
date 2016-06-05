@@ -8,7 +8,7 @@ export class MdlCheckboxBase {
   }
 
   attached() {
-    this.upgrader.upgrade(this.component.querySelector('.mdl-' + this.type.toLowerCase() + '__ripple-container'), 'MaterialRipple');
+    this.upgrader.upgrade(this.component.querySelector('.mdl-' + this.mdlType.toLowerCase() + '__ripple-container'), 'MaterialRipple');
   }
 
   checkedChanged(value) {
@@ -18,7 +18,7 @@ export class MdlCheckboxBase {
   }
 }
 
-@mdlComponent({type: 'Checkbox'})
+@mdlComponent({mdlType: 'Checkbox'})
 export class MdlCheckboxCustomElement extends MdlCheckboxBase {
   @bindable id
   @bindable({defaultBindingMode: bindingMode.twoWay}) checked = false
@@ -26,7 +26,7 @@ export class MdlCheckboxCustomElement extends MdlCheckboxBase {
   @upgradeAttr('Ripple') ripple = true
 }
 
-@mdlComponent({type: 'Switch'})
+@mdlComponent({mdlType: 'Switch'})
 export class MdlSwitchCustomElement extends MdlCheckboxBase {
   @bindable id
   @bindable({defaultBindingMode: bindingMode.twoWay}) checked = false

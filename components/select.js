@@ -4,7 +4,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {MdlUpgrader} from './upgrader.js';
 import {mdlComponent, forwardAttr} from './component.js';
 
-@mdlComponent({type: 'Select', upgrade: 'Textfield', inject: false})
+@mdlComponent({mdlType: 'Select', upgrade: 'Textfield', inject: false})
 @inject(MdlUpgrader, EventAggregator, Element, Container, BindingSignaler)
 export class MdlSelectCustomElement {
   @bindable id

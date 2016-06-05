@@ -4,7 +4,7 @@ import {MdlUpgrader} from './upgrader.js';
 import {mdlComponent} from './component.js';
 import {MdlMenuCustomElement} from './menu.js';
 
-@mdlComponent({type: 'MenuItem', upgrade: false, inject: false})
+@mdlComponent({mdlType: 'MenuItem', upgrade: false, inject: false})
 @inject(MdlUpgrader, Optional.of(MdlMenuCustomElement, true), BindingEngine)
 export class MdlMenuItemCustomElement {
   constructor(upgrader, menu, bindingEngine) {
