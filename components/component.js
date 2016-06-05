@@ -62,7 +62,7 @@ function attachedAndChanged(changed, target, key, descriptor) {
   }
   target[attachedFns].push(changed);
 
-  target[key + 'Changed'] = function() {}
+  target[key + 'Changed'] = function() {};
 }
 
 function _styleAttr(options, target, key, descriptor) {
@@ -71,7 +71,9 @@ function _styleAttr(options, target, key, descriptor) {
 
   function changed(value) {
     const componentOptions = getComponentOptions(this);
-    this[componentOptions.ref].classList[value ? 'add' : 'remove'](options.class || (componentOptions.prefix + '--' + options.suffix));
+    this[componentOptions.ref].classList[value ? 'add' : 'remove'](
+      options.class || (componentOptions.prefix + '--' + options.suffix)
+    );
   }
 
   attachedAndChanged(changed, target, key, descriptor);
