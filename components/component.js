@@ -1,10 +1,11 @@
-import {bindable} from 'aurelia-framework';
+import {bindable, inject, Container} from 'aurelia-framework';
 import {MdlUpgrader} from './upgrader.js';
+import {DOM} from 'aurelia-pal';
 
 const componentAttrs = Symbol('componentAttrs');
 const attachedFns = Symbol('attachedFns');
 
-function getComponentOptions(obj) {
+export function getComponentOptions(obj) {
   do {
     if (componentAttrs in obj.constructor)
       return obj.constructor[componentAttrs];
@@ -14,7 +15,7 @@ function getComponentOptions(obj) {
   throw new Error('No options found! Invalid component?');
 }
 
-export function mdlComponent(options) {
+export function mdl(options) {
   if (typeof options === 'string' || options instanceof String)
     options = {mdlType: options};
 
@@ -24,9 +25,6 @@ export function mdlComponent(options) {
 
   return function(target) {
     target[componentAttrs] = options;
-
-    if (options.inject !== false)
-      target.inject = [MdlUpgrader];
 
     if (options.upgrade === false)
       return;
@@ -113,4 +111,39 @@ export function upgradeAttr(type) {
 
     attachedAndChanged(changed, target, key, descriptor);
   };
+}
+
+@inject(Container, MdlUpgrader)
+export class MdlComponent {
+  constructor(container, upgrader) {
+    container.registerInstance(MdlComponent, this);
+    this.upgrader = upgrader;
+  }
+
+  setCustomValidity(errors, formField = this.input) {
+    errors = errors || [];
+
+    // Set validity on input
+    formField.setCustomValidity(errors.join(' '));
+
+    // Deletion of prev errors
+    let deleteThese = [];
+    Array.prototype.forEach.call(this.component.children, child => {
+      if (child.classList.contains('mdl-validation'))
+        deleteThese.push(child);
+    });
+    deleteThese.forEach(child => this.component.removeChild(child));
+
+    const options = getComponentOptions(this);
+
+    // Add relevant errors
+    errors.forEach(error => {
+      let errorMessageHelper = DOM.createElement('span');
+      let errorMessageNode = DOM.createTextNode(error.message);
+
+      errorMessageHelper.appendChild(errorMessageNode);
+      errorMessageHelper.classList.add('mdl-validation', options.prefix + '__error');
+      this.component.appendChild(errorMessageHelper);
+    });
+  }
 }

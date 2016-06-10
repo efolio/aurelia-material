@@ -8,6 +8,8 @@ export function configure(aurelia) {
     './menu',
     './option',
     './select',
-    './textfield'
+    './textfield',
+    './validate'
+    // './mdl-focus'
   );
 };

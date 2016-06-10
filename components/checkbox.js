@@ -1,12 +1,8 @@
 import {bindable, bindingMode} from 'aurelia-framework';
 import {MdlUpgrader} from './upgrader.js';
-import {mdlComponent, forwardAttr, styleAttr, upgradeAttr} from './component.js';
+import {mdl, MdlComponent, forwardAttr, styleAttr, upgradeAttr} from './component.js';
 
-export class MdlCheckboxBase {
-  constructor(upgrader) {
-    this.upgrader = upgrader;
-  }
-
+export class MdlCheckboxBase extends MdlComponent {
   attached() {
     this.upgrader.upgrade(this.component.querySelector('.mdl-' + this.mdlType.toLowerCase() + '__ripple-container'), 'MaterialRipple');
   }
@@ -18,7 +14,7 @@ export class MdlCheckboxBase {
   }
 }
 
-@mdlComponent({mdlType: 'Checkbox'})
+@mdl({mdlType: 'Checkbox'})
 export class MdlCheckboxCustomElement extends MdlCheckboxBase {
   @bindable id
   @bindable({defaultBindingMode: bindingMode.twoWay}) checked = false
@@ -26,7 +22,7 @@ export class MdlCheckboxCustomElement extends MdlCheckboxBase {
   @upgradeAttr('Ripple') ripple = true
 }
 
-@mdlComponent({mdlType: 'Switch'})
+@mdl({mdlType: 'Switch'})
 export class MdlSwitchCustomElement extends MdlCheckboxBase {
   @bindable id
   @bindable({defaultBindingMode: bindingMode.twoWay}) checked = false

@@ -2,7 +2,6 @@ import {useView, bindable, inject, containerless, Optional} from 'aurelia-framew
 import {MdlMenuItemCustomElement} from './menu-item.js';
 import {MdlSelectCustomElement} from './select.js';
 import {ObserverLocator} from 'aurelia-binding';
-import {MdlUpgrader} from './upgrader.js';
 
 @inject(Optional.of(MdlSelectCustomElement, true))
 export class MdlOptionCustomElement extends MdlMenuItemCustomElement {

@@ -1,17 +1,17 @@
 import {inject, Optional} from 'aurelia-framework';
 import {BindingEngine} from 'aurelia-binding';
-import {MdlUpgrader} from './upgrader.js';
-import {mdlComponent} from './component.js';
+import {mdl, MdlComponent} from './component.js';
 import {MdlMenuCustomElement} from './menu.js';
 
-@mdlComponent({mdlType: 'MenuItem', upgrade: false, inject: false})
-@inject(MdlUpgrader, Optional.of(MdlMenuCustomElement, true), BindingEngine)
-export class MdlMenuItemCustomElement {
-  constructor(upgrader, menu, bindingEngine) {
+@mdl({mdlType: 'MenuItem', upgrade: false})
+@inject(Optional.of(MdlMenuCustomElement, true), BindingEngine)
+export class MdlMenuItemCustomElement extends MdlComponent {
+  constructor(menu, bindingEngine, ...superDeps) {
+    super(...superDeps);
+
     if (!menu)
       throw new Error('menu-items/options should be in a menu/select!');
 
-    this.upgrader = upgrader;
     this.menu = menu;
 
     this.rippleObserver = bindingEngine.propertyObserver(menu, 'ripple');

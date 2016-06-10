@@ -1,12 +1,11 @@
 import {bindable, inject, bindingMode, observable, Container, Optional} from 'aurelia-framework';
 import {BindingSignaler} from 'aurelia-templating-resources';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {MdlUpgrader} from './upgrader.js';
-import {mdlComponent, forwardAttr} from './component.js';
+import {mdl, MdlComponent, forwardAttr} from './component.js';
 
-@mdlComponent({mdlType: 'Select', upgrade: 'Textfield', inject: false})
-@inject(MdlUpgrader, EventAggregator, Element, Container, BindingSignaler)
-export class MdlSelectCustomElement {
+@mdl({mdlType: 'Select', upgrade: 'Textfield'})
+@inject(EventAggregator, Element, Container, BindingSignaler)
+export class MdlSelectCustomElement extends MdlComponent {
   @bindable id
   @bindable({defaultBindingMode: bindingMode.twoWay}) value
   @bindable label
@@ -15,8 +14,9 @@ export class MdlSelectCustomElement {
 
   values = {}
 
-  constructor(upgrader, evAgg, element, container, signaler) {
-    this.upgrader = upgrader;
+  constructor(evAgg, element, container, signaler, ...superDeps) {
+    super(...superDeps);
+
     this.evAgg = evAgg;
     this.container = container;
     this.signaler = signaler;

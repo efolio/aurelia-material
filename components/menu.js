@@ -1,17 +1,17 @@
 import {inject, bindable, Optional} from 'aurelia-framework';
-import {mdlComponent, upgradeAttr} from './component.js';
+import {mdl, MdlComponent, upgradeAttr} from './component.js';
 import {MdlSelectCustomElement} from './select.js';
 import {MdlUpgrader} from './upgrader.js';
 
-@mdlComponent({mdlType: 'Menu', inject: false})
-@inject(MdlUpgrader, Optional.of(MdlSelectCustomElement, true))
-export class MdlMenuCustomElement {
+@mdl({mdlType: 'Menu'})
+@inject(Optional.of(MdlSelectCustomElement, true))
+export class MdlMenuCustomElement extends MdlComponent {
   @bindable for
   @bindable position
   @upgradeAttr('Ripple') ripple
 
-  constructor(upgrader, select) {
-    this.upgrader = upgrader;
+  constructor(select, ...superDeps) {
+    super(...superDeps)
 
     if (select)
       select.registerMenu(this);

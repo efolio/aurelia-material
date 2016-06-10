@@ -1,7 +1,7 @@
-import {mdlComponent, styleAttr, upgradeAttr, forwardAttr} from './component.js';
+import {mdl, MdlComponent, styleAttr, upgradeAttr, forwardAttr} from './component.js';
 
-@mdlComponent('Button')
-export class MdlButtonCustomElement {
+@mdl('Button')
+export class MdlButtonCustomElement extends MdlComponent {
   @styleAttr raised
   @styleAttr fab
   @styleAttr colored
@@ -11,8 +11,4 @@ export class MdlButtonCustomElement {
   @styleAttr({suffix: 'mini-fab'}) miniFab
   @styleAttr({class: 'is-disabled'}) @forwardAttr disabled
   @upgradeAttr('Ripple') ripple = true;
-
-  constructor(upgrader) {
-    this.upgrader = upgrader;
-  }
 }
