@@ -1,0 +1,18 @@
+template
+  div(ref="component").mdl-layout--fixed-header.mdl-layout--fixed-tabs
+    header.mdl-layout__header
+      .mdl-layout__header-row
+        slot(name="header")
+      .mdl-layout__tab-bar.mdl-js-ripple-effect(ref="tabBar")
+        a.mdl-layout__tab(
+          href="#"
+          repeat.for="tab of tabs"
+          class.bind="tab.active ? 'is-active' : ''"
+        )
+    main.mdl-layout__content
+      .mdl-layout__tab-panel(
+        repeat.for="tab of tabs"
+        id.bind="tab.id"
+        class.bind="tab.active ? 'is-active' : ''"
+      )
+        slot(name="content")

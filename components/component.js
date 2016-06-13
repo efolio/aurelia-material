@@ -102,11 +102,11 @@ export function forwardAttr(optionsOrTarget, ...rest) {
   return _forwardAttr.bind(this, optionsOrTarget);
 }
 
-export function upgradeAttr(type) {
+export function upgradeAttr(type, ref) {
   return function(target, key, descriptor) {
     function changed(value) {
       const options = getComponentOptions(this);
-      this.upgrader[value ? 'upgrade' : 'downgrade'](this[options.ref], 'Material' + type);
+      this.upgrader[value ? 'upgrade' : 'downgrade'](this[ref || options.ref], 'Material' + type);
     }
 
     attachedAndChanged(changed, target, key, descriptor);

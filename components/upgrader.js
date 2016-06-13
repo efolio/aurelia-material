@@ -9,7 +9,10 @@ export class MdlUpgrader {
   }
 
   upgrade(item, type, ripple) {
-    componentHandler.upgradeElement(item, type);
+    try {
+      componentHandler.upgradeElement(item, type);
+    }
+    catch (e) {}
 
     if (ripple)
       componentHandler.upgradeElement(item, 'MaterialRipple');
