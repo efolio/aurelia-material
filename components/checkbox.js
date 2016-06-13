@@ -5,6 +5,7 @@ import {mdl, MdlComponent, forwardAttr, styleAttr, upgradeAttr} from './componen
 export class MdlCheckboxBase extends MdlComponent {
   attached() {
     this.upgrader.upgrade(this.component.querySelector('.mdl-' + this.mdlType.toLowerCase() + '__ripple-container'), 'MaterialRipple');
+    this.checkedChanged(this.checked);
   }
 
   checkedChanged(value) {

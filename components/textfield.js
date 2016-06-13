@@ -9,6 +9,8 @@ export class MdlTextfieldCustomElement extends MdlComponent {
   @bindable({defaultBindingMode: bindingMode.twoWay}) mdlFocus
   @bindable type
   @styleAttr({class: 'is-disabled'}) @forwardAttr('input') disabled
+  @bindable multiline = false
+  @forwardAttr('input') rows = 3
 
   valueChanged(value) {
     if (!this.component)

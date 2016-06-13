@@ -6,7 +6,7 @@ import {ObserverLocator} from 'aurelia-binding';
 @inject(Optional.of(MdlSelectCustomElement, true))
 export class MdlOptionCustomElement extends MdlMenuItemCustomElement {
   @bindable default
-  @bindable value = null
+  @bindable value
 
   constructor(select, ...superDeps) {
     if (!select)
@@ -19,14 +19,14 @@ export class MdlOptionCustomElement extends MdlMenuItemCustomElement {
   attached() {
     super.attached();
 
-    if (this.value === null)
+    if (this.value === undefined)
       this.value = this.component.textContent;
 
     this.select.registerValue(this.component.textContent, this);
 
     // handle default value
     if ((this.value === this.select.value) ||                                   // current option is selected
-      this.select.value === undefined && (!this.value || this.default)) {       // no value to preselect & falsy value | default
+      this.select.value === undefined && (this.value === undefined || this.default)) {       // no value to preselect & falsy value | default
       this.setValue();
     }
   }
