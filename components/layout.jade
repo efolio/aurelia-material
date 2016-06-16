@@ -1,18 +1,18 @@
 template
-  div(ref="component").mdl-layout--fixed-header.mdl-layout--fixed-tabs
-    header.mdl-layout__header
+  div(ref="component").mdl-layout.mdl-layout--fixed-header.mdl-layout--fixed-tabs.is-upgraded.has-tabs
+    header.mdl-layout__header.is-casting-shadow
       .mdl-layout__header-row
         slot(name="header")
-      .mdl-layout__tab-bar.mdl-js-ripple-effect(ref="tabBar")
-        a.mdl-layout__tab(
-          href="#"
-          repeat.for="tab of tabs"
-          class.bind="tab.active ? 'is-active' : ''"
-        )
+      .mdl-layout__tab-bar-container
+        .mdl-layout__tab-bar.is-casting-shadow.mdl-js-ripple-effect.mdl-js-ripple-effect--ignore-events(ref="tabBar")
+          a.mdl-layout__tab(
+            repeat.for="row of router.navigation"
+            href.bind="row.href"
+            class.bind="row.isActive ? 'is-active' : ''"
+          )
+            | ${row.title}
+            span.mdl-layout__tab-ripple-container.mdl-js-ripple-effect
+
     main.mdl-layout__content
-      .mdl-layout__tab-panel(
-        repeat.for="tab of tabs"
-        id.bind="tab.id"
-        class.bind="tab.active ? 'is-active' : ''"
-      )
+      .mdl-layout__tab-panel.is-active(id="tab")
         slot(name="content")

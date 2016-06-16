@@ -16,6 +16,7 @@ export class MdlTextfieldCustomElement extends MdlComponent {
     if (!this.component)
       return;
 
-    this.component.MaterialTextfield.change(value);
+    if (this.input.value !== value)
+      this.component.MaterialTextfield.change(value);
   }
 }
