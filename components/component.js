@@ -52,13 +52,20 @@ function attachedAndChanged(changed, target, key, descriptor) {
     const attached = target.attached || function() {};
     target.attached = function() {
       attached.apply(this, arguments);
-      changed.call(this, this[key]);
-      target[key + 'Changed'] = function(...args) {
-        target[attachedFns].forEach(changed => changed.call(this, ...args));
-      };
+      target[attachedFns].forEach(elt => {
+        target[elt.key + 'Changed'] = function() {
+          elt.changed.apply(this, arguments);
+        };
+        elt.changed.call(this, this[elt.key]);
+      });
+    };
+    const detached = target.detached || function() {};
+    target.detached = function() {
+      detached.apply(this, arguments);
+      target[attachedFns].forEach(elt => target[elt.key + 'Changed'] = function() {});
     };
   }
-  target[attachedFns].push(changed);
+  target[attachedFns].push({key: key, changed: changed});
 
   target[key + 'Changed'] = function() {};
 }
