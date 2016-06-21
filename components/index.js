@@ -5,6 +5,7 @@ export function configure(aurelia) {
     './card',
     './checkbox',
     './converters',
+    './dialog',
     './layout',
     './menu-item',
     './menu',

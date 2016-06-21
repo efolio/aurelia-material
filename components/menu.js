@@ -11,7 +11,7 @@ export class MdlMenuCustomElement extends MdlComponent {
   @upgradeAttr('Ripple') ripple
 
   constructor(select, ...superDeps) {
-    super(...superDeps)
+    super(...superDeps);
 
     if (select)
       select.registerMenu(this);

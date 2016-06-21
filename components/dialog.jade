@@ -1,0 +1,6 @@
+template
+  dialog.mdl-dialog(ref="component")
+    .mdl-dialog__content
+      slot
+    .mdl-dialog__actions(class.bind="fullwidth ? '.mdl-dialog__actions--full-width' : ''")
+      slot(name="actions")
