@@ -76,6 +76,8 @@ function _styleAttr(options, target, key, descriptor) {
 
   function changed(value) {
     const componentOptions = getComponentOptions(this);
+    if (!this[componentOptions.ref])
+      return;
     this[componentOptions.ref].classList[value ? 'add' : 'remove'](
       options.class || (componentOptions.prefix + '--' + options.suffix)
     );
